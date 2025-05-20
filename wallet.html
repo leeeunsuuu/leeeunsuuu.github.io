@@ -41,6 +41,7 @@
             alert("오류 발생: " + err.message);
             console.error(err);
           }
+          window.location.href = `anb://signature?address=${address}&sig=${signature}`;
         });
       });
     </script>
