@@ -7,24 +7,36 @@
   </head>
   <body style="text-align:center; padding-top:50px;">
     <h2>Web3 지갑 연결</h2>
-    <button onclick="connect()" style="font-size:20px;padding:10px 30px;">지갑 연결 및 서명</button>
+    <button id="connect-button" style="font-size:20px;padding:10px 30px;">
+      지갑 연결 및 서명
+    </button>
 
     <script>
       async function connect() {
-        if (!window.ethereum) {
-          alert("MetaMask 앱의 브라우저에서 이 페이지를 열어주세요.");
-          return;
+        try {
+          if (!window.ethereum) {
+            alert("MetaMask 앱의 브라우저에서 이 페이지를 열어주세요.");
+            return;
+          }
+
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          await provider.send("eth_requestAccounts", []);
+          const signer = provider.getSigner();
+          const address = await signer.getAddress();
+          const message = "이 계약서에 동의하여 서명합니다.";
+          const signature = await signer.signMessage(message);
+
+          alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
+        } catch (err) {
+          alert("오류 발생: " + err.message);
+          console.error(err);
         }
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        const address = await signer.getAddress();
-        const message = "이 계약서에 동의하여 서명합니다.";
-        const signature = await signer.signMessage(message);
-
-        alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
       }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("connect-button");
+        if (btn) btn.addEventListener("click", connect);
+      });
     </script>
   </body>
 </html>
