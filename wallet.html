@@ -10,8 +10,7 @@
       지갑 연결 및 서명
     </button>
 
-    <!-- ✅ 로컬로 직접 호스팅된 ethers -->
-   <script src="https://leeeunsuuu.github.io/wallet-dapp/ethers.umd.min.js"></script>
+    <script src="https://leeeunsuuu.github.io/wallet-dapp/ethers.umd.min.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -37,11 +36,14 @@
             const signature = await signer.signMessage(message);
 
             alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
+
+            // ✅ 앱으로 서명 결과 전달 (딥링크)
+            const encodedSig = encodeURIComponent(signature);
+            window.location.href = `anb://signature?address=${address}&sig=${encodedSig}`;
           } catch (err) {
             alert("오류 발생: " + err.message);
             console.error(err);
           }
-          window.location.href = `anb://signature?address=${address}&sig=${signature}`;
         });
       });
     </script>
