@@ -43,6 +43,12 @@
             const encodedSig = encodeURIComponent(signature);
             const deeplink = `exp://172.30.1.78:8081?address=${encodedAddress}&sig=${encodedSig}`;
 
+            console.log("📬 address (원본):", address);
+            console.log("📬 signature (원본):", signature);
+            console.log("📬 encodedAddress:", encodedAddress);
+            console.log("📬 encodedSig:", encodedSig);
+            console.log("📬 deeplink:", deeplink);
+
             result.innerHTML = `
               <p style="font-size:16px;">서명이 완료되었습니다.<br>아래 버튼을 눌러 앱으로 돌아가 주세요.</p>
               <a href="${deeplink}" style="display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;">
