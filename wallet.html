@@ -10,11 +10,14 @@
       지갑 연결 및 서명
     </button>
 
+    <div id="result-container" style="margin-top:30px;"></div>
+
     <script src="https://leeeunsuuu.github.io/wallet-dapp/ethers.umd.min.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const btn = document.getElementById("connect-button");
+        const result = document.getElementById("result-container");
 
         if (!window.ethers) {
           alert("ethers.js 로드에 실패했습니다.");
@@ -37,28 +40,20 @@
 
             alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
 
-            // ✅ 딥링크 생성
             const encodedAddress = encodeURIComponent(address);
             const encodedSig = encodeURIComponent(signature);
             const deeplink = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
 
-            // ✅ 안내 문구 및 버튼
-            const info = document.createElement("p");
-            info.innerText = "서명이 완료되었습니다. 아래 버튼을 눌러 앱으로 돌아가 주세요.";
-            info.style = "margin-top:30px; font-size:16px;";
-            document.body.appendChild(info);
-
-            const link = document.createElement("a");
-            link.href = deeplink;
-            link.innerText = "👉 앱으로 돌아가기";
-            link.style =
-              "display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;";
-            document.body.appendChild(link);
-
-            const fallback = document.createElement("p");
-            fallback.innerText = "※ 앱이 자동으로 열리지 않으면 홈 화면으로 나가 앱을 직접 실행해 주세요.";
-            fallback.style = "margin-top:20px;font-size:14px;color:#555;";
-            document.body.appendChild(fallback);
+            // ✅ 안내 및 버튼 표시 (DOM 안전하게 삽입)
+            result.innerHTML = `
+              <p style="font-size:16px;">서명이 완료되었습니다.<br>아래 버튼을 눌러 앱으로 돌아가 주세요.</p>
+              <a href="${deeplink}" style="display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;">
+                👉 앱으로 돌아가기
+              </a>
+              <p style="margin-top:20px;font-size:14px;color:#555;">
+                ※ 앱이 자동으로 열리지 않으면 홈 화면으로 나가 직접 실행해 주세요.
+              </p>
+            `;
           } catch (err) {
             alert("오류 발생: " + err.message);
             console.error(err);
