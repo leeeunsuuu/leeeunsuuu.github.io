@@ -41,7 +41,7 @@
             // ✅ DOM만으로 안내 표시
             const encodedAddress = encodeURIComponent(address);
             const encodedSig = encodeURIComponent(signature);
-            const deeplink = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
+            const deeplink = `exp://172.30.1.78:8081?address=${encodedAddress}&sig=${encodedSig}`;
 
             result.innerHTML = `
               <p style="font-size:16px;">서명이 완료되었습니다.<br>아래 버튼을 눌러 앱으로 돌아가 주세요.</p>
