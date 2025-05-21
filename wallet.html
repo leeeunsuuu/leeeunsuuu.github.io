@@ -24,6 +24,10 @@
           return;
         }
 
+        function encodeBase64(obj) {
+          return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+        }
+
         btn.addEventListener("click", async () => {
           try {
             if (!window.ethereum) {
@@ -38,15 +42,12 @@
             const message = "이 계약서에 동의하여 서명합니다.";
             const signature = await signer.signMessage(message);
 
-            // ✅ DOM만으로 안내 표시
-            const encodedAddress = encodeURIComponent(address);
-            const encodedSig = encodeURIComponent(signature);
-            const deeplink = `exp://172.30.1.78:8081?address=${encodedAddress}&sig=${encodedSig}`;
+            const combined = { address, sig: signature };
+            const encoded = encodeURIComponent(encodeBase64(combined));
+            const deeplink = `exp://172.30.1.78:8081?data=${encoded}`;
 
-            console.log("📬 address (원본):", address);
-            console.log("📬 signature (원본):", signature);
-            console.log("📬 encodedAddress:", encodedAddress);
-            console.log("📬 encodedSig:", encodedSig);
+            console.log("📬 combined:", combined);
+            console.log("📬 encoded:", encoded);
             console.log("📬 deeplink:", deeplink);
 
             result.innerHTML = `
