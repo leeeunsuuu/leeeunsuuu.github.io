@@ -38,13 +38,11 @@
             const message = "이 계약서에 동의하여 서명합니다.";
             const signature = await signer.signMessage(message);
 
-            alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
-
+            // ✅ DOM만으로 안내 표시
             const encodedAddress = encodeURIComponent(address);
             const encodedSig = encodeURIComponent(signature);
             const deeplink = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
 
-            // ✅ 안내 및 버튼 표시 (DOM 안전하게 삽입)
             result.innerHTML = `
               <p style="font-size:16px;">서명이 완료되었습니다.<br>아래 버튼을 눌러 앱으로 돌아가 주세요.</p>
               <a href="${deeplink}" style="display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;">
