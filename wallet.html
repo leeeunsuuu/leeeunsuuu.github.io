@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>지갑 연결</title>
   </head>
-  <body style="text-align:center; padding-top:50px;">
+  <body style="text-align:center; padding-top:50px; font-family:sans-serif;">
     <h2>Web3 지갑 연결</h2>
     <button id="connect-button" style="font-size:20px;padding:10px 30px;">
       지갑 연결 및 서명
@@ -42,19 +42,23 @@
             const encodedSig = encodeURIComponent(signature);
             const deeplink = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
 
-            // ✅ 안내 문구
+            // ✅ 안내 문구 및 버튼
             const info = document.createElement("p");
-            info.innerText = "앱으로 돌아가려면 아래 버튼을 눌러주세요.";
-            info.style = "margin-top:20px;font-size:16px;";
+            info.innerText = "서명이 완료되었습니다. 아래 버튼을 눌러 앱으로 돌아가 주세요.";
+            info.style = "margin-top:30px; font-size:16px;";
             document.body.appendChild(info);
 
-            // ✅ 링크로 앱 실행 (브라우저 호환성 ↑)
             const link = document.createElement("a");
             link.href = deeplink;
             link.innerText = "👉 앱으로 돌아가기";
             link.style =
               "display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;";
             document.body.appendChild(link);
+
+            const fallback = document.createElement("p");
+            fallback.innerText = "※ 앱이 자동으로 열리지 않으면 홈 화면으로 나가 앱을 직접 실행해 주세요.";
+            fallback.style = "margin-top:20px;font-size:14px;color:#555;";
+            document.body.appendChild(fallback);
           } catch (err) {
             alert("오류 발생: " + err.message);
             console.error(err);
