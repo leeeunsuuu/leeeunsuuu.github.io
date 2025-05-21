@@ -38,8 +38,9 @@
             alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
 
             // ✅ 앱으로 서명 결과 전달 (딥링크)
+            const encodedAddress = encodeURIComponent(address);
             const encodedSig = encodeURIComponent(signature);
-            window.location.href = `anb://signature?address=${address}&sig=${encodedSig}`;
+            window.location.href = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
           } catch (err) {
             alert("오류 발생: " + err.message);
             console.error(err);
