@@ -37,10 +37,17 @@
 
             alert("서명 완료!\n주소: " + address + "\n서명: " + signature);
 
-            // ✅ 앱으로 서명 결과 전달 (딥링크)
+            // ✅ 딥링크 URL 안전하게 생성
             const encodedAddress = encodeURIComponent(address);
             const encodedSig = encodeURIComponent(signature);
-            window.location.href = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
+            const deeplink = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
+
+            // ✅ 자동 이동 대신 버튼으로 앱 열기
+            const link = document.createElement("a");
+            link.href = deeplink;
+            link.innerText = "👉 앱으로 돌아가기";
+            link.style.cssText = "display:inline-block;margin-top:30px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;";
+            document.body.appendChild(link);
           } catch (err) {
             alert("오류 발생: " + err.message);
             console.error(err);
