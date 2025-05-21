@@ -42,15 +42,19 @@
             const encodedSig = encodeURIComponent(signature);
             const deeplink = `anb://signature?address=${encodedAddress}&sig=${encodedSig}`;
 
-            // ✅ 앱으로 돌아가기 버튼 생성 (onclick으로 실행)
-            const btnBack = document.createElement("button");
-            btnBack.innerText = "👉 앱으로 돌아가기";
-            btnBack.style.cssText =
-              "margin-top:30px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border:none;border-radius:6px;";
-            btnBack.onclick = () => {
-              window.location.href = deeplink;
-            };
-            document.body.appendChild(btnBack);
+            // ✅ 안내 문구
+            const info = document.createElement("p");
+            info.innerText = "앱으로 돌아가려면 아래 버튼을 눌러주세요.";
+            info.style = "margin-top:20px;font-size:16px;";
+            document.body.appendChild(info);
+
+            // ✅ 링크로 앱 실행 (브라우저 호환성 ↑)
+            const link = document.createElement("a");
+            link.href = deeplink;
+            link.innerText = "👉 앱으로 돌아가기";
+            link.style =
+              "display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;";
+            document.body.appendChild(link);
           } catch (err) {
             alert("오류 발생: " + err.message);
             console.error(err);
