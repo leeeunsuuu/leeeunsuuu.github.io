@@ -44,7 +44,7 @@
 
             const combined = { address, sig: signature };
             const encoded = encodeURIComponent(encodeBase64(combined));
-            const deeplink = `exp://172.30.1.78:8081?data=${encoded}`;
+            const deeplink = `anb://172.30.1.78:8081?data=${encoded}`;
 
             console.log("📬 combined:", combined);
             console.log("📬 encoded:", encoded);
