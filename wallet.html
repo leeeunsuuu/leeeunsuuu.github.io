@@ -51,14 +51,27 @@
             console.log("📬 deeplink:", deeplink);
 
             result.innerHTML = `
-              <p style="font-size:16px;">서명이 완료되었습니다.<br>아래 버튼을 눌러 앱으로 돌아가 주세요.</p>
-              <a href="${deeplink}" style="display:inline-block;margin-top:10px;font-size:18px;padding:10px 20px;background:#007aff;color:white;border-radius:6px;text-decoration:none;">
+              <p style="font-size:16px; color:#333;">
+                ✅ 서명이 완료되었습니다.<br>
+                <strong style="color:#007aff;">아래 <u>버튼을 꼭 눌러</u> 앱으로 돌아가 주세요.</strong>
+              </p>
+              <a href="${deeplink}" style="
+                display:inline-block;
+                margin-top:16px;
+                font-size:20px;
+                padding:14px 28px;
+                background:#007aff;
+                color:white;
+                border-radius:8px;
+                text-decoration:none;
+                font-weight:bold;
+              ">
                 👉 앱으로 돌아가기
               </a>
-              <p style="margin-top:20px;font-size:14px;color:#555;">
-                ※ 앱이 자동으로 열리지 않으면 홈 화면으로 나가 직접 실행해 주세요.
+              <p style="margin-top:20px; font-size:14px; color:#d00;">
+                ⚠️ 단순히 앱으로 나가지 마세요! 반드시 위 <u>파란 버튼</u>을 눌러야 계약이 완료됩니다.
               </p>
-              <p style="font-size:12px;margin-top:20px;color:#333;">
+              <p style="font-size:12px; margin-top:20px; color:#333;">
                 딥링크 주소:<br/>
                 <code>${deeplink}</code>
               </p>
