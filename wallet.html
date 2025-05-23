@@ -1,87 +1,86 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>지갑 연결</title>
-  </head>
-  <body style="text-align:center; padding-top:50px; font-family:sans-serif;">
-    <h2>Web3 지갑 연결</h2>
-    <button id="connect-button" style="font-size:20px;padding:10px 30px;">
-      지갑 연결 및 서명
-    </button>
+<head>
+  <meta charset="utf-8" />
+  <title>지갑 연결</title>
+  <style>
+    body { text-align: center; padding-top: 50px; font-family: sans-serif; }
+    .btn {
+      font-size: 20px;
+      padding: 14px 28px;
+      background: #007aff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 16px;
+    }
+    .warn {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #d00;
+    }
+    .code {
+      font-size: 12px;
+      margin-top: 20px;
+      color: #333;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h2>Web3 지갑 연결</h2>
+  <button id="connect-button" class="btn">지갑 연결 및 서명</button>
+  <div id="result-container"></div>
 
-    <div id="result-container" style="margin-top:30px;"></div>
+  <script src="https://leeeunsuuu.github.io/wallet-dapp/ethers.umd.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const btn = document.getElementById("connect-button");
+      const result = document.getElementById("result-container");
 
-    <script src="https://leeeunsuuu.github.io/wallet-dapp/ethers.umd.min.js"></script>
+      if (!window.ethers) {
+        alert("ethers.js 로드에 실패했습니다.");
+        return;
+      }
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const btn = document.getElementById("connect-button");
-        const result = document.getElementById("result-container");
+      function encodeBase64(obj) {
+        return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+      }
 
-        if (!window.ethers) {
-          alert("ethers.js 로드에 실패했습니다.");
-          return;
-        }
-
-        function encodeBase64(obj) {
-          return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
-        }
-
-        btn.addEventListener("click", async () => {
-          try {
-            if (!window.ethereum) {
-              alert("MetaMask 앱의 브라우저에서 이 페이지를 열어주세요.");
-              return;
-            }
-
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            await provider.send("eth_requestAccounts", []);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            const message = "이 계약서에 동의하여 서명합니다.";
-            const signature = await signer.signMessage(message);
-
-            const combined = { address, sig: signature };
-            const encoded = encodeURIComponent(encodeBase64(combined));
-            const deeplink = `anb://signature?data=${encoded}`;
-
-            console.log("📬 combined:", combined);
-            console.log("📬 encoded:", encoded);
-            console.log("📬 deeplink:", deeplink);
-
-            result.innerHTML = `
-              <p style="font-size:16px; color:#333;">
-                ✅ 서명이 완료되었습니다.<br>
-                <strong style="color:#007aff;">아래 <u>버튼을 꼭 눌러</u> 앱으로 돌아가 주세요.</strong>
-              </p>
-              <a href="${deeplink}" style="
-                display:inline-block;
-                margin-top:16px;
-                font-size:20px;
-                padding:14px 28px;
-                background:#007aff;
-                color:white;
-                border-radius:8px;
-                text-decoration:none;
-                font-weight:bold;
-              ">
-                👉 앱으로 돌아가기
-              </a>
-              <p style="margin-top:20px; font-size:14px; color:#d00;">
-                ⚠️ 단순히 앱으로 나가지 마세요! 반드시 위 <u>파란 버튼</u>을 눌러야 계약이 완료됩니다.
-              </p>
-              <p style="font-size:12px; margin-top:20px; color:#333;">
-                딥링크 주소:<br/>
-                <code>${deeplink}</code>
-              </p>
-            `;
-          } catch (err) {
-            alert("오류 발생: " + err.message);
-            console.error(err);
+      btn.addEventListener("click", async () => {
+        try {
+          if (!window.ethereum) {
+            alert("MetaMask 앱의 브라우저에서 이 페이지를 열어주세요.");
+            return;
           }
-        });
+
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          await provider.send("eth_requestAccounts", []);
+          const signer = provider.getSigner();
+          const address = await signer.getAddress();
+          const message = "이 계약서에 동의하여 서명합니다.";
+          const signature = await signer.signMessage(message);
+
+          const combined = { address, sig: signature };
+          const encoded = encodeURIComponent(encodeBase64(combined));
+          const deeplink = `anb://signature?data=${encoded}`;
+
+          console.log("📬 딥링크:", deeplink);
+
+          result.innerHTML = `
+            <p>✅ 서명이 완료되었습니다.<br><strong>아래 <u>파란 버튼</u>을 눌러 앱으로 돌아가 주세요.</strong></p>
+            <a class="btn" href="${deeplink}">👉 앱으로 돌아가기</a>
+            <p class="warn">⚠️ 반드시 버튼을 눌러야 계약이 완료됩니다.</p>
+            <div class="code">딥링크 주소:<br/><code>${deeplink}</code></div>
+          `;
+        } catch (err) {
+          alert("오류 발생: " + err.message);
+          console.error(err);
+        }
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
