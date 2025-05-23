@@ -51,8 +51,8 @@
 
       btn.addEventListener("click", async () => {
         try {
-          if (!window.ethereum) {
-            alert("MetaMask 앱의 브라우저에서 이 페이지를 열어주세요.");
+          if (typeof window.ethereum === "undefined") {
+            alert("MetaMask가 설치된 브라우저에서 사용해 주세요.");
             return;
           }
 
