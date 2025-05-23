@@ -71,7 +71,7 @@
 
           result.innerHTML = `
             <p>✅ 서명이 완료되었습니다.<br><strong>아래 <u>파란 버튼</u>을 눌러 앱으로 돌아가 주세요.</strong></p>
-            <a class="btn" href="${deeplink}">👉 앱으로 돌아가기</a>
+            <button class="btn" onclick="window.location.href='${deeplink}'">👉 앱으로 돌아가기</button>
             <p class="warn">⚠️ 반드시 버튼을 눌러야 계약이 완료됩니다.</p>
             <div class="code">딥링크 주소:<br/><code>${deeplink}</code></div>
           `;
