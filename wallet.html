@@ -64,7 +64,9 @@
           const signature = await signer.signMessage(message);
 
           const combined = { address, sig: signature };
-          const encoded = encodeURIComponent(encodeBase64(combined));
+          const encoded = encodeURIComponent(
+            btoa(unescape(encodeURIComponent(JSON.stringify(combined))))
+          );
           const deeplink = `anb://signature?data=${encoded}`;
 
           console.log("📬 딥링크:", deeplink);
