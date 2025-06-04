@@ -60,10 +60,13 @@
           await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
           const address = await signer.getAddress();
-          const message = "이 계약서에 동의하여 서명합니다.";
+
+          const contractId = 123; // TODO: 계약 ID를 동적으로 설정해야 함
+          const timestamp = new Date().toISOString();
+          const message = `계약 ID ${contractId}에 동의합니다. [${timestamp}]`;
           const signature = await signer.signMessage(message);
 
-          const combined = { address, sig: signature };
+          const combined = { address, sig: signature, message };
           const encoded = encodeURIComponent(encodeBase64(combined));
           const deeplink = `anb://signature?data=${encoded}`;
 
