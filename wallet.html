@@ -71,6 +71,7 @@
           const deeplink = `anb://signature?data=${encoded}`;
 
           console.log("📬 딥링크:", deeplink);
+          window.location.href = deeplink;
 
           result.innerHTML = `
             <p>✅ 서명이 완료되었습니다.<br><strong>아래 <u>파란 버튼</u>을 눌러 앱으로 돌아가 주세요.</strong></p>
